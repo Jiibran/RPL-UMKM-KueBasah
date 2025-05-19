@@ -1,0 +1,81 @@
+<!-- Admin Orders Page -->
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-md-3 col-lg-2">
+      <!-- Admin Sidebar -->
+      <%- include('./sidebar') %>
+    </div>
+    
+    <div class="col-md-9 col-lg-10">
+      <h2 class="mb-4">Order Management</h2>
+      
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="mb-3">
+            <ul class="nav nav-pills">
+              <li class="nav-item">
+                <a class="nav-link active" href="#">All Orders</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Pending</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Processing</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Shipped</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Delivered</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Cancelled</a>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Amount</th>
+                  <th>Payment Method</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (orders && orders.length > 0) { %>
+                  <% orders.forEach(order => { %>
+                    <tr>
+                      <td>#<%= order.id %></td>
+                      <td><%= order.customer_name %></td>
+                      <td>Rp <%= order.total_amount.toLocaleString('id-ID') %></td>
+                      <td><%= order.payment_method.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') %></td>
+                      <td>
+                        <span class="order-status status-<%= order.status.toLowerCase() %>">
+                          <%= order.status.charAt(0).toUpperCase() + order.status.slice(1) %>
+                        </span>
+                      </td>
+                      <td><%= new Date(order.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></td>
+                      <td>
+                        <a href="/admin/orders/<%= order.id %>" class="btn btn-sm btn-primary">View</a>
+                      </td>
+                    </tr>
+                  <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="7" class="text-center">No orders found</td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

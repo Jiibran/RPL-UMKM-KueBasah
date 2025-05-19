@@ -1,0 +1,195 @@
+<!-- Product Detail Page -->
+<section class="product-detail-section py-5">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-md-6 mb-4 mb-md-0">
+        <div class="product-detail">
+          <img src="/images/products/<%= product.image %>" class="img-fluid product-image w-100" alt="<%= product.name %>" onerror="this.src='/images/placeholder.jpg'">
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/products">Products</a></li>
+            <% if (product.category_name) { %>
+              <li class="breadcrumb-item"><a href="/products?category=<%= product.category_id %>"><%= product.category_name %></a></li>
+            <% } %>
+            <li class="breadcrumb-item active" aria-current="page"><%= product.name %></li>
+          </ol>
+        </nav>
+        
+        <h1 class="mb-2"><%= product.name %></h1>
+        
+        <div class="rating mb-3">
+          <% for (let i = 1; i <= 5; i++) { %>
+            <i class="<%= i <= Math.round(avgRating) ? 'fas' : 'far' %> fa-star"></i>
+          <% } %>
+          <span class="ms-2">(<%= reviews.length %> reviews)</span>
+        </div>
+        
+        <div class="product-price mb-3">
+          <span class="h3">Rp <%= product.price.toLocaleString('id-ID') %></span>
+        </div>
+        
+        <div class="mb-4">
+          <p><%= product.description %></p>
+        </div>
+        
+        <div class="mb-4">
+          <p class="mb-1"><strong>Category:</strong> <%= product.category_name || 'Uncategorized' %></p>
+          <p class="mb-1"><strong>Availability:</strong> 
+            <% if (product.stock > 0) { %>
+              <span class="text-success">In Stock (<%= product.stock %> available)</span>
+            <% } else { %>
+              <span class="text-danger">Out of Stock</span>
+            <% } %>
+          </p>
+        </div>
+        
+        <form action="/orders/cart/add" method="POST" class="mb-4">
+          <input type="hidden" name="product_id" value="<%= product.id %>">
+          
+          <div class="quantity-selector mb-3">
+            <button type="button" class="btn-quantity" onclick="decrementQuantity('quantity')">-</button>
+            <input type="number" id="quantity" name="quantity" value="1" min="1" max="<%= product.stock %>" class="form-control">
+            <button type="button" class="btn-quantity" onclick="incrementQuantity('quantity')">+</button>
+          </div>
+          
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary" <%= product.stock <= 0 ? 'disabled' : '' %>>
+              <i class="fas fa-cart-plus me-2"></i> Add to Cart
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-12">
+        <ul class="nav nav-tabs mb-4" id="productTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">Description</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Reviews (<%= reviews.length %>)</button>
+          </li>
+        </ul>
+        
+        <div class="tab-content p-4 bg-white shadow-sm rounded" id="productTabsContent">
+          <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+            <h4>Product Description</h4>
+            <p><%= product.description %></p>
+          </div>
+          
+          <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+            <h4 class="mb-4">Customer Reviews</h4>
+            
+            <% if (reviews.length > 0) { %>
+              <% reviews.forEach(review => { %>
+                <div class="review-card">
+                  <div class="rating">
+                    <% for (let i = 1; i <= 5; i++) { %>
+                      <i class="<%= i <= review.rating ? 'fas' : 'far' %> fa-star"></i>
+                    <% } %>
+                  </div>
+                  <h5 class="mb-1"><%= review.user_name %></h5>
+                  <p class="text-muted small mb-2">
+                    <%= new Date(review.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                  </p>
+                  <p><%= review.comment %></p>
+                </div>
+              <% }) %>
+            <% } else { %>
+              <div class="text-center p-4">
+                <p>There are no reviews yet for this product.</p>
+              </div>
+            <% } %>
+            
+            <% if (user) { %>
+              <div class="add-review mt-4 pt-4 border-top">
+                <h5>Write a Review</h5>
+                <form action="/products/<%= product.id %>/reviews" method="POST">
+                  <div class="mb-3">
+                    <label class="form-label">Your Rating</label>
+                    <div class="rating-select">
+                      <div class="btn-group" role="group">
+                        <% for (let i = 5; i >= 1; i--) { %>
+                          <input type="radio" class="btn-check" name="rating" id="rating<%= i %>" value="<%= i %>" required>
+                          <label class="btn btn-outline-warning" for="rating<%= i %>"><%= i %> <i class="fas fa-star"></i></label>
+                        <% } %>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label for="comment" class="form-label">Your Review</label>
+                    <textarea class="form-control" id="comment" name="comment" rows="4" required></textarea>
+                  </div>
+                  
+                  <button type="submit" class="btn btn-primary">Submit Review</button>
+                </form>
+              </div>
+            <% } else { %>
+              <div class="text-center mt-4 pt-4 border-top">
+                <p>Please <a href="/auth/login">login</a> to write a review.</p>
+              </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Related Products -->
+    <% if (relatedProducts && relatedProducts.length > 0) { %>
+      <div class="related-products mt-5">
+        <h3 class="mb-4">You Might Also Like</h3>
+        <div class="row">
+          <% relatedProducts.forEach(relProduct => { %>
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="product-card">
+                <img src="/images/products/<%= relProduct.image %>" alt="<%= relProduct.name %>" onerror="this.src='/images/placeholder.jpg'">
+                <div class="card-body">
+                  <h5><%= relProduct.name %></h5>
+                  <div class="product-price">
+                    Rp <%= relProduct.price.toLocaleString('id-ID') %>
+                  </div>
+                  <div class="d-flex gap-2">
+                    <a href="/products/<%= relProduct.id %>" class="btn btn-outline w-100">View</a>
+                    <button class="btn btn-primary" onclick="addToCart(<%= relProduct.id %>)">
+                      <i class="fas fa-cart-plus"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<!-- Toast Notifications -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="cartToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header bg-primary text-white">
+      <strong class="me-auto">UMKM Kue Basah</strong>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Product successfully added to your cart!
+    </div>
+  </div>
+  
+  <div id="errorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header bg-danger text-white">
+      <strong class="me-auto">Error</strong>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div id="errorToastBody" class="toast-body">
+      Something went wrong. Please try again.
+    </div>
+  </div>
+</div>

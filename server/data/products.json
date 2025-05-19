@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Kue Lapis",
+    "description": "Traditional layered cake with rich coconut and pandan flavors, perfect for special occasions.",
+    "price": 45000,
+    "image": "product1.jpg",
+    "category_id": 1,
+    "stock": 20,
+    "is_featured": true
+  },
+  {
+    "id": 2,
+    "name": "Klepon",
+    "description": "Sweet rice cake balls filled with palm sugar and coated with grated coconut.",
+    "price": 25000,
+    "image": "product2.jpg",
+    "category_id": 1,
+    "stock": 30,
+    "is_featured": true
+  },
+  {
+    "id": 3,
+    "name": "Lemper",
+    "description": "Sticky rice rolls filled with savory chicken or beef, wrapped in banana leaves.",
+    "price": 30000,
+    "image": "product1.jpg",
+    "category_id": 1,
+    "stock": 25,
+    "is_featured": false
+  },
+  {
+    "id": 4,
+    "name": "Onde-onde",
+    "description": "Fried rice cake balls with sweet mung bean filling and sesame seed coating.",
+    "price": 28000,
+    "image": "product2.jpg",
+    "category_id": 3,
+    "stock": 15,
+    "is_featured": true
+  }
+]

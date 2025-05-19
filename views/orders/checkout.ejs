@@ -1,0 +1,115 @@
+<!-- Checkout Page -->
+<section class="hero">
+  <div class="container text-center">
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <h1>Checkout</h1>
+        <p>Complete your order by providing shipping and payment details</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="checkout-section py-5">
+  <div class="container">
+    <form action="/orders/place-order" method="POST">
+      <div class="row">
+        <!-- Shipping Information -->
+        <div class="col-md-8 mb-4">
+          <div class="checkout-section">
+            <h4 class="mb-3">Shipping Information</h4>
+            
+            <div class="row g-3">
+              <div class="col-12">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="name" value="<%= userDetails.name %>" readonly>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" value="<%= userDetails.email %>" readonly>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" value="<%= userDetails.phone %>" readonly>
+              </div>
+              
+              <div class="col-12">
+                <label for="shipping_address" class="form-label">Shipping Address</label>
+                <textarea class="form-control" id="shipping_address" name="shipping_address" rows="3" required><%= userDetails.address %></textarea>
+              </div>
+            </div>
+          </div>
+          
+          <div class="checkout-section mt-4">
+            <h4 class="mb-3">Payment Method</h4>
+            
+            <div class="form-check mb-2">
+              <input id="payment-bank" name="payment_method" type="radio" class="form-check-input" value="bank_transfer" checked required>
+              <label class="form-check-label" for="payment-bank">Bank Transfer</label>
+              <small class="text-muted d-block">Transfer to our bank account. Instructions will be provided after placing your order.</small>
+            </div>
+            
+            <div class="form-check mb-2">
+              <input id="payment-cod" name="payment_method" type="radio" class="form-check-input" value="cash_on_delivery" required>
+              <label class="form-check-label" for="payment-cod">Cash on Delivery</label>
+              <small class="text-muted d-block">Pay with cash upon delivery of your items.</small>
+            </div>
+            
+            <div class="form-check mb-2">
+              <input id="payment-ewallet" name="payment_method" type="radio" class="form-check-input" value="e_wallet" required>
+              <label class="form-check-label" for="payment-ewallet">E-Wallet (GoPay/OVO/DANA)</label>
+              <small class="text-muted d-block">Pay using your preferred e-wallet. QR code will be provided.</small>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Order Summary -->
+        <div class="col-md-4">
+          <div class="checkout-section">
+            <h4 class="mb-3">Order Summary</h4>
+            
+            <div class="order-items">
+              <% cartItems.forEach(item => { %>
+                <div class="d-flex justify-content-between mb-2">
+                  <span><%= item.name %> x <%= item.quantity %></span>
+                  <span>Rp <%= item.subtotal.toLocaleString('id-ID') %></span>
+                </div>
+              <% }) %>
+            </div>
+            
+            <hr>
+            
+            <div class="d-flex justify-content-between mb-2">
+              <span>Subtotal</span>
+              <span>Rp <%= total.toLocaleString('id-ID') %></span>
+            </div>
+            
+            <div class="d-flex justify-content-between mb-2">
+              <span>Shipping</span>
+              <span>Free</span>
+            </div>
+            
+            <hr>
+            
+            <div class="d-flex justify-content-between mb-4">
+              <strong>Total</strong>
+              <strong>Rp <%= total.toLocaleString('id-ID') %></strong>
+            </div>
+            
+            <div class="form-check mb-3">
+              <input type="checkbox" class="form-check-input" id="terms" required>
+              <label class="form-check-label" for="terms">I agree to the Terms and Conditions</label>
+            </div>
+            
+            <div class="d-grid gap-2">
+              <button class="btn btn-primary" type="submit">Place Order</button>
+              <a href="/orders/cart" class="btn btn-outline-secondary">Back to Cart</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,69 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-lg-2">
+            <%- include('./sidebar') %>
+        </div>
+        <div class="col-md-9 col-lg-10">
+            <h1 class="h3 mb-2 text-gray-800">Manajemen Pelanggan</h1>
+            <p class="mb-4">Lihat dan kelola daftar pelanggan Anda.</p>
+
+            <% if (message) { %>
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <%= message %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <% } %>
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Daftar Pelanggan</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTableCustomers" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nama</th>
+                                    <th>Email</th>
+                                    <th>Telepon</th>
+                                    <th>Tanggal Bergabung</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (customers && customers.length > 0) { %>
+                                    <% customers.forEach(customer => { %>
+                                        <tr>
+                                            <td><%= customer.id %></td>
+                                            <td><%= customer.name %></td>
+                                            <td><%= customer.email %></td>
+                                            <td><%= customer.phone || '-' %></td>
+                                            <td><%= new Date(customer.created_at).toLocaleDateString('id-ID') %></td>
+                                            <td>
+                                                <a href="/admin/customers/<%= customer.id %>/view" class="btn btn-info btn-sm me-1" title="Lihat Detail">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <!-- Tambahkan aksi lain jika perlu, misal edit atau hapus pelanggan -->
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="6" class="text-center">Tidak ada data pelanggan.</td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <%- include('../partials/admin-scripts') %>
+            <script>
+                // $(document).ready(function() {
+                //     $('#dataTableCustomers').DataTable();
+                // });
+            </script>
+        </div>
+    </div>
+</div>

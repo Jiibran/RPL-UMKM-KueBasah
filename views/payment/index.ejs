@@ -1,0 +1,170 @@
+<!-- Payment Page -->
+<section class="hero">
+  <div class="container text-center">
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <h1>Complete Your Payment</h1>
+        <p>Please complete your payment to process your order</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="payment-section py-5">
+  <div class="container">
+    <div class="row">
+      <!-- Order Summary -->
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-white">
+            <h5 class="mb-0">Order Summary</h5>
+          </div>
+          <div class="card-body">
+            <div class="mb-4">
+              <p class="mb-1">
+                <span class="text-muted">Order ID:</span><br>
+                <strong>#<%= payment.order_id.toString().padStart(4, '0') %></strong>
+              </p>
+              <p class="mb-1">
+                <span class="text-muted">Total Amount:</span><br>
+                <strong class="text-primary fs-4">Rp <%= payment.total_amount.toLocaleString() %></strong>
+              </p>
+              <p class="mb-0">
+                <span class="text-muted">Payment Expires:</span><br>
+                <strong><%= new Date(payment.expires_at).toLocaleString() %></strong>
+              </p>
+            </div>
+
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle me-2"></i>
+              Please complete the payment before it expires
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Form -->
+      <div class="col-md-8">
+        <div class="card shadow-sm">
+          <div class="card-header bg-white">
+            <h5 class="mb-0">Payment Method</h5>
+          </div>
+          <div class="card-body">
+            <form action="/payment/process/<%= payment.payment_id %>" method="POST">
+              <div class="mb-4">
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="radio" name="payment_method" id="creditCard" value="credit_card" checked>
+                  <label class="form-check-label" for="creditCard">
+                    <i class="far fa-credit-card me-2"></i> Credit Card
+                  </label>
+                </div>
+                
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="radio" name="payment_method" id="bankTransfer" value="bank_transfer">
+                  <label class="form-check-label" for="bankTransfer">
+                    <i class="fas fa-university me-2"></i> Bank Transfer
+                  </label>
+                </div>
+                
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="payment_method" id="eWallet" value="e_wallet">
+                  <label class="form-check-label" for="eWallet">
+                    <i class="fas fa-wallet me-2"></i> E-Wallet
+                  </label>
+                </div>
+              </div>
+
+              <!-- Credit Card Form (shown by default) -->
+              <div id="creditCardForm" class="payment-method-form">
+                <div class="mb-3">
+                  <label for="card_number" class="form-label">Card Number</label>
+                  <input type="text" class="form-control" id="card_number" name="card_number" placeholder="1234 5678 9012 3456">
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="card_holder" class="form-label">Card Holder Name</label>
+                    <input type="text" class="form-control" id="card_holder" name="card_holder" placeholder="John Doe">
+                  </div>
+                  <div class="col-md-3">
+                    <label for="expiry_date" class="form-label">Expiry Date</label>
+                    <input type="text" class="form-control" id="expiry_date" name="expiry_date" placeholder="MM/YY">
+                  </div>
+                  <div class="col-md-3">
+                    <label for="cvv" class="form-label">CVV</label>
+                    <input type="text" class="form-control" id="cvv" name="cvv" placeholder="123">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bank Transfer Form (hidden by default) -->
+              <div id="bankTransferForm" class="payment-method-form d-none">
+                <div class="alert alert-info">
+                  <h6 class="mb-2">Bank Account Details</h6>
+                  <p class="mb-1"><strong>Bank Name:</strong> Bank Central Asia (BCA)</p>
+                  <p class="mb-1"><strong>Account Number:</strong> 12345678910</p>
+                  <p class="mb-1"><strong>Account Name:</strong> UMKM Kue Basah</p>
+                  <p class="mb-0">Please include your Order ID in the transfer reference.</p>
+                </div>
+              </div>
+
+              <!-- E-Wallet Form (hidden by default) -->
+              <div id="eWalletForm" class="payment-method-form d-none">
+                <div class="mb-3">
+                  <p>Please select your preferred e-wallet:</p>
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="ewallet_type" id="gopay" value="gopay" checked>
+                    <label class="form-check-label" for="gopay">GoPay</label>
+                  </div>
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="ewallet_type" id="ovo" value="ovo">
+                    <label class="form-check-label" for="ovo">OVO</label>
+                  </div>
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="ewallet_type" id="dana" value="dana">
+                    <label class="form-check-label" for="dana">DANA</label>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="phone_number" class="form-label">Phone Number</label>
+                  <input type="tel" class="form-control" id="phone_number" name="phone_number" placeholder="e.g. 08123456789">
+                </div>
+              </div>
+
+              <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-primary btn-lg">Complete Payment</button>
+                <a href="/orders/detail/<%= payment.order_id %>" class="btn btn-link text-decoration-none">Cancel Payment</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
+    const paymentForms = document.querySelectorAll('.payment-method-form');
+    
+    // Show/hide payment forms based on selected method
+    paymentMethods.forEach(method => {
+      method.addEventListener('change', function() {
+        paymentForms.forEach(form => {
+          form.classList.add('d-none');
+        });
+        
+        const selectedMethod = this.value;
+        if (selectedMethod === 'credit_card') {
+          document.getElementById('creditCardForm').classList.remove('d-none');
+        } else if (selectedMethod === 'bank_transfer') {
+          document.getElementById('bankTransferForm').classList.remove('d-none');
+        } else if (selectedMethod === 'e_wallet') {
+          document.getElementById('eWalletForm').classList.remove('d-none');
+        }
+      });
+    });
+  });
+</script>

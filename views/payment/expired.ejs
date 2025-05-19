@@ -1,0 +1,43 @@
+<!-- Payment Expired Page -->
+<section class="payment-expired py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="card shadow-sm text-center py-5">
+          <div class="mb-4">
+            <div class="expired-icon">
+              <i class="fas fa-hourglass-end text-warning fa-5x"></i>
+            </div>
+          </div>
+          
+          <div class="px-4">
+            <h1 class="mb-4">Payment Expired</h1>
+            <p class="lead mb-4">The payment session for your order has expired.</p>
+            
+            <div class="payment-details bg-light p-4 mb-4 text-start rounded">
+              <div class="row mb-2">
+                <div class="col-6 text-muted">Order ID:</div>
+                <div class="col-6 text-end"><strong>#<%= payment.order_id.toString().padStart(4, '0') %></strong></div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-6 text-muted">Payment ID:</div>
+                <div class="col-6 text-end"><strong><%= payment.payment_id %></strong></div>
+              </div>
+              <div class="row">
+                <div class="col-6 text-muted">Amount:</div>
+                <div class="col-6 text-end"><strong>Rp <%= payment.amount.toLocaleString() %></strong></div>
+              </div>
+            </div>
+            
+            <p class="mb-4">You can initiate a new payment for your order.</p>
+            
+            <div class="d-grid gap-2 col-md-8 mx-auto">
+              <a href="/payment/initiate/<%= payment.order_id %>" class="btn btn-primary">Try Again</a>
+              <a href="/orders/detail/<%= payment.order_id %>" class="btn btn-outline-secondary">Back to Order</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

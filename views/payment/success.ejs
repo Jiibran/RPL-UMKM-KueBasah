@@ -1,0 +1,51 @@
+<!-- Payment Success Page -->
+<section class="payment-success py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="card shadow-sm text-center py-5">
+          <div class="mb-4">
+            <div class="success-icon">
+              <i class="fas fa-check-circle text-success fa-5x"></i>
+            </div>
+          </div>
+          
+          <div class="px-4">
+            <h1 class="mb-4">Payment Successful!</h1>
+            <p class="lead mb-4">Thank you for your payment. Your order is now being processed.</p>
+            
+            <div class="payment-details bg-light p-4 mb-4 text-start rounded">
+              <div class="row mb-2">
+                <div class="col-6 text-muted">Order ID:</div>
+                <div class="col-6 text-end"><strong>#<%= payment.order_id.toString().padStart(4, '0') %></strong></div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-6 text-muted">Payment ID:</div>
+                <div class="col-6 text-end"><strong><%= payment.payment_id %></strong></div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-6 text-muted">Transaction ID:</div>
+                <div class="col-6 text-end"><strong><%= payment.transaction_id %></strong></div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-6 text-muted">Amount:</div>
+                <div class="col-6 text-end"><strong>Rp <%= payment.amount.toLocaleString() %></strong></div>
+              </div>
+              <div class="row">
+                <div class="col-6 text-muted">Date:</div>
+                <div class="col-6 text-end"><strong><%= new Date(payment.completed_at).toLocaleString() %></strong></div>
+              </div>
+            </div>
+            
+            <p class="mb-4">We have sent you an email with your order details and payment confirmation.</p>
+            
+            <div class="d-grid gap-2 col-md-8 mx-auto">
+              <a href="/orders/detail/<%= payment.order_id %>" class="btn btn-primary">View Order Details</a>
+              <a href="/products" class="btn btn-outline-primary">Continue Shopping</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

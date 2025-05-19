@@ -1,0 +1,55 @@
+<!-- Admin Sidebar -->
+<div class="admin-sidebar mb-4">
+  <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+    <img src="/images/logo.png" alt="UMKM Kue Basah" class="img-fluid me-2" style="max-height: 40px;">
+    <h5 class="mb-0">Admin Panel</h5>
+  </div>
+  
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link <%= currentPath === '/admin/dashboard' ? 'active' : '' %>" href="/admin/dashboard">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link <%= currentPath === '/admin/products' ? 'active' : '' %>" href="/admin/products">
+        <i class="fas fa-box"></i> Products
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link <%= currentPath === '/admin/orders' ? 'active' : '' %>" href="/admin/orders">
+        <i class="fas fa-shopping-bag"></i> Orders
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link <%= currentPath === '/admin/customers' ? 'active' : '' %>" href="/admin/customers">
+        <i class="fas fa-users"></i> Customers
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link <%= currentPath === '/admin/categories' ? 'active' : '' %>" href="/admin/categories">
+        <i class="fas fa-tag"></i> Categories
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link <%= currentPath === '/admin/reports' ? 'active' : '' %>" href="/admin/reports">
+        <i class="fas fa-chart-bar"></i> Reports
+      </a>
+    </li>
+  </ul>
+  
+  <hr>
+  
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link" href="/" target="_blank">
+        <i class="fas fa-external-link-alt"></i> View Website
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-danger" href="/auth/logout">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </li>
+  </ul>
+</div>

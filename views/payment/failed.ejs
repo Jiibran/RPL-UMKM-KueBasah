@@ -1,0 +1,43 @@
+<!-- Payment Failed Page -->
+<section class="payment-failed py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="card shadow-sm text-center py-5">
+          <div class="mb-4">
+            <div class="failed-icon">
+              <i class="fas fa-times-circle text-danger fa-5x"></i>
+            </div>
+          </div>
+          
+          <div class="px-4">
+            <h1 class="mb-4">Payment Failed</h1>
+            <p class="lead mb-4">We're sorry, but your payment could not be processed successfully.</p>
+            
+            <div class="payment-details bg-light p-4 mb-4 text-start rounded">
+              <div class="row mb-2">
+                <div class="col-6 text-muted">Order ID:</div>
+                <div class="col-6 text-end"><strong>#<%= payment.order_id.toString().padStart(4, '0') %></strong></div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-6 text-muted">Payment ID:</div>
+                <div class="col-6 text-end"><strong><%= payment.payment_id %></strong></div>
+              </div>
+              <div class="row">
+                <div class="col-6 text-muted">Amount:</div>
+                <div class="col-6 text-end"><strong>Rp <%= payment.amount.toLocaleString() %></strong></div>
+              </div>
+            </div>
+            
+            <p class="mb-4">Please try again with a different payment method or check your payment details.</p>
+            
+            <div class="d-grid gap-2 col-md-8 mx-auto">
+              <a href="/payment/<%= payment.payment_id %>" class="btn btn-primary">Try Again</a>
+              <a href="/orders/detail/<%= payment.order_id %>" class="btn btn-outline-secondary">Back to Order</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

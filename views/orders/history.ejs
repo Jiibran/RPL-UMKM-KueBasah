@@ -1,0 +1,78 @@
+<!-- Order History Page -->
+<section class="hero">
+  <div class="container text-center">
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <h1>My Orders</h1>
+        <p>Track and manage your orders</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="order-history py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">My Account</h5>
+            <div class="list-group list-group-flush">
+              <a href="/orders/history" class="list-group-item list-group-item-action active">My Orders</a>
+              <a href="/profile" class="list-group-item list-group-item-action">Profile</a>
+              <a href="/auth/logout" class="list-group-item list-group-item-action">Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-9">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h4 class="mb-4">Order History</h4>
+            
+            <% if (orders && orders.length > 0) { %>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Order #</th>
+                      <th>Date</th>
+                      <th>Total</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% orders.forEach(order => { %>
+                      <tr>
+                        <td>#<%= order.id %></td>
+                        <td><%= new Date(order.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></td>
+                        <td>Rp <%= order.total_amount.toLocaleString('id-ID') %></td>
+                        <td>
+                          <span class="order-status status-<%= order.status.toLowerCase() %>">
+                            <%= order.status.charAt(0).toUpperCase() + order.status.slice(1) %>
+                          </span>
+                        </td>
+                        <td>
+                          <a href="/orders/<%= order.id %>" class="btn btn-sm btn-outline-primary">View Details</a>
+                        </td>
+                      </tr>
+                    <% }) %>
+                  </tbody>
+                </table>
+              </div>
+            <% } else { %>
+              <div class="text-center py-4">
+                <i class="fas fa-shopping-bag fa-3x mb-3 text-muted"></i>
+                <h5>No orders found</h5>
+                <p class="mb-4">You haven't placed any orders yet.</p>
+                <a href="/products" class="btn btn-primary">Browse Products</a>
+              </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

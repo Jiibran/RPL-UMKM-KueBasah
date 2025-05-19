@@ -1,0 +1,109 @@
+<!-- Shopping Cart Page -->
+<section class="hero">
+  <div class="container text-center">
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <h1>Your Shopping Cart</h1>
+        <p>Review and manage your selected items</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cart-section py-5">
+  <div class="container">
+    <% if (cartItems && cartItems.length > 0) { %>
+      <div class="row">
+        <div class="col-lg-8">
+          <!-- Cart Items -->
+          <% cartItems.forEach(item => { %>
+            <div class="cart-item mb-3">
+              <div class="row align-items-center">
+                <div class="col-md-2 col-4 mb-3 mb-md-0">
+                  <img src="/images/products/<%= item.image %>" alt="<%= item.name %>" class="img-fluid" onerror="this.src='/images/placeholder.jpg'">
+                </div>
+                
+                <div class="col-md-4 col-8 mb-3 mb-md-0">
+                  <h5 class="mb-0"><%= item.name %></h5>
+                  <p class="text-muted mb-0">Rp <%= item.price.toLocaleString('id-ID') %></p>
+                </div>
+                
+                <div class="col-md-3 col-6">
+                  <form action="/orders/cart/update" method="POST" class="d-flex align-items-center">
+                    <input type="hidden" name="cart_id" value="<%= item.id %>">
+                    <div class="input-group">
+                      <button type="button" class="btn btn-outline-secondary" onclick="decrementQuantity('qty<%= item.id %>')">-</button>
+                      <input type="number" id="qty<%= item.id %>" name="quantity" class="form-control text-center" value="<%= item.quantity %>" min="1">
+                      <button type="button" class="btn btn-outline-secondary" onclick="incrementQuantity('qty<%= item.id %>')">+</button>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-link ms-2">Update</button>
+                  </form>
+                </div>
+                
+                <div class="col-md-2 col-6 text-end">
+                  <h5 class="mb-0">Rp <%= item.subtotal.toLocaleString('id-ID') %></h5>
+                </div>
+                
+                <div class="col-md-1 text-end">
+                  <form action="/orders/cart/remove" method="POST">
+                    <input type="hidden" name="cart_id" value="<%= item.id %>">
+                    <button type="submit" class="btn btn-link text-danger">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+          
+          <div class="d-flex justify-content-between mt-4">
+            <a href="/products" class="btn btn-outline-primary">
+              <i class="fas fa-arrow-left me-2"></i> Continue Shopping
+            </a>
+          </div>
+        </div>
+        
+        <!-- Cart Summary -->
+        <div class="col-lg-4 mt-4 mt-lg-0">
+          <div class="cart-summary">
+            <h4 class="mb-4">Order Summary</h4>
+            
+            <div class="d-flex justify-content-between mb-2">
+              <span>Subtotal</span>
+              <span>Rp <%= total.toLocaleString('id-ID') %></span>
+            </div>
+            
+            <div class="d-flex justify-content-between mb-2">
+              <span>Shipping</span>
+              <span>Calculated at checkout</span>
+            </div>
+            
+            <hr>
+            
+            <div class="d-flex justify-content-between mb-4">
+              <strong>Total</strong>
+              <strong>Rp <%= total.toLocaleString('id-ID') %></strong>
+            </div>
+            
+            <div class="d-grid gap-2">
+              <a href="/orders/checkout" class="btn btn-primary">
+                Proceed to Checkout
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="row">
+        <div class="col-12">
+          <div class="text-center p-5">
+            <i class="fas fa-shopping-cart fa-4x mb-3 text-muted"></i>
+            <h3>Your cart is empty</h3>
+            <p class="mb-4">Looks like you haven't added any items to your cart yet.</p>
+            <a href="/products" class="btn btn-primary">Browse Products</a>
+          </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</section>

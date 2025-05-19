@@ -1,0 +1,56 @@
+<!-- Order Success Page -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card shadow-sm text-center">
+          <div class="card-body p-5">
+            <div class="mb-4">
+              <i class="fas fa-check-circle text-success fa-5x"></i>
+            </div>
+            
+            <h1 class="mb-3">Thank You for Your Order!</h1>
+            <p class="mb-4">Your order has been placed successfully and is being processed.</p>
+            
+            <div class="alert alert-info mb-4">
+              <p class="mb-0"><strong>Order Number:</strong> #<%= order.id %></p>
+              <p class="mb-0"><strong>Total Amount:</strong> Rp <%= order.total_amount.toLocaleString('id-ID') %></p>
+            </div>
+            
+            <% if (order.payment_method === 'bank_transfer') { %>
+              <div class="payment-info mb-4 text-start">
+                <h5>Payment Instructions</h5>
+                <p>Please transfer the total amount to our bank account:</p>
+                <div class="alert alert-light">
+                  <p class="mb-1"><strong>Bank:</strong> Bank Central Asia (BCA)</p>
+                  <p class="mb-1"><strong>Account Number:</strong> 1234567890</p>
+                  <p class="mb-1"><strong>Account Name:</strong> UMKM Kue Basah</p>
+                  <p class="mb-0"><strong>Reference:</strong> Order #<%= order.id %></p>
+                </div>
+                <p class="small text-muted">Please include your Order Number in the transfer description.</p>
+              </div>
+            <% } else if (order.payment_method === 'e_wallet') { %>
+              <div class="payment-info mb-4 text-center">
+                <h5>E-Wallet Payment</h5>
+                <p>Please scan the QR code below to complete your payment:</p>
+                <div class="qr-code mb-3">
+                  <!-- Placeholder for QR code image -->
+                  <img src="/images/qr-code.png" alt="Payment QR Code" class="img-fluid" style="max-width: 200px;">
+                </div>
+                <p class="small text-muted">You can use any e-wallet app (GoPay, OVO, DANA, LinkAja)</p>
+              </div>
+            <% } %>
+            
+            <p>We will send you an email with order details and tracking information once your order is shipped.</p>
+            
+            <div class="mt-4">
+              <a href="/orders/<%= order.id %>" class="btn btn-primary">View Order Details</a>
+              <a href="/orders/history" class="btn btn-outline-secondary ms-2">My Orders</a>
+              <a href="/products" class="btn btn-outline-primary ms-2">Continue Shopping</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
