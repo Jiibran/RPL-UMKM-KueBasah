@@ -27,7 +27,7 @@ Dokumen ini menjelaskan teknologi utama yang digunakan dalam pengembangan websit
 
 *   **HTML5:** Bahasa markup standar untuk membuat struktur halaman web.
 *   **CSS3:** Digunakan untuk styling dan tata letak halaman web, memastikan tampilan yang menarik dan responsif.
-*   **(Kemungkinan) Bootstrap atau Framework CSS Serupa:** (Berdasarkan struktur umum dan kelas CSS yang mungkin digunakan) Untuk mempercepat pengembangan UI dengan menyediakan komponen siap pakai dan sistem grid yang responsif.
+*   **Bootstrap:** Untuk mempercepat pengembangan UI dengan menyediakan komponen siap pakai dan sistem grid yang responsif.
 
 ## Alat Pengembangan & Lainnya
 
